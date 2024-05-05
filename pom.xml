@@ -18,12 +18,12 @@
 	<distributionManagement>
 		 <snapshotRepository>
 		    <id>nexusRepo</id>
-		    <url>http://54.236.16.181:8081/repository/batch12-snapshots/</url>
+		    <url>http://34.207.155.216:8081/repository/B13-REPOSNAP/</url>
 		 </snapshotRepository>
 		
 		<repository>
 		    <id>nexusRepo</id>
-		    <url>http://54.236.16.181:8081/repository/batch12-release/</url>
+		    <url>http://34.207.155.216:8081/repository/B13-REP0/</url>
 		</repository>
   	</distributionManagement>
 	

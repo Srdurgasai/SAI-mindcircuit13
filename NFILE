@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    tools{
+        jdk 'jdk-8'
+    }
+
+    stages {
+        stage('git') {
+            steps {
+                echo 'scm'
+                git branch: 'main' , url : 'https://github.com/Srdurgasai/SAI-mindcircuit13.git'
+            }
+        }
+   
+        stage('sonar') {
+            steps {
+                echo 'scanning project'
+                sh '''mvn sonar:sonar \\
+  -Dsonar.host.url=http://52.23.212.62:9000 \
+  -Dsonar.login=336d7481e9093b451d1c695172ddd06a83ce4f6f
+            }
+        }
+   
+       stage('build') {
+            steps {
+                echo 'generating artifact using maven build tool'
+                sh 'mvn clean install'
+            }
+        }
+ 
+       stage('nexus artifact') {
+            steps {
+                echo 'publish to nexus'
+                sh 'mvn deploy'
+            }
+        }
+ 
+       stage('deploy to tomcat') {
+            steps {
+                echo 'tomcat deploy'
+                sh 'mvn deploy'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat-b13', path: '', url: 'http://52.91.118.152:8091/')], contextPath: 'tomcat', war: '**/*.war'
+            }
+        }
+
+    }
+
+}
